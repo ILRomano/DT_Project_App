@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  push_to_dockerhub:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,3 +21,7 @@ jobs:
          docker run -d -p 5000:5000 --name gunicorn gunicorn_img:latest
          pip3 install -r requirements.txt #prerequencies to run the tests
          python initial_test.py
+    - name: Login to dockerhub
+      run: #get secrets somehow
+    - name: push to dockerhub 
+      run: docker push romanoo/gunicorn_img:latest
