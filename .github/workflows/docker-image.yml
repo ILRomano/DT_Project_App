@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      working-directory: gunicorn_container/
       run: docker build --tag gunicorn_img:$(date +%s) .
         
   test:
