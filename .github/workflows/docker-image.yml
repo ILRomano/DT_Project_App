@@ -22,6 +22,10 @@ jobs:
          pip3 install -r requirements.txt #prerequencies to run the tests
          python initial_test.py
     - name: Login to dockerhub
-      run: #get secrets somehow
+      run: #get secrets somehow, example below might work
+      #- name: Log in to Docker Hub
+      #  uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      #  with:
+      #   username: ${{ secrets.DO tDOCKER_PASSWORD }}
     - name: push to dockerhub 
       run: docker push romanoo/gunicorn_img:latest
