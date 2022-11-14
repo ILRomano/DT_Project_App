@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --tag gunicorn_img:$(date +%s) .
+        
+  test:
+    runs-on: python:3
+    steps:
+    - name: Run a container with the app
+      run: docker run -d -p 5000:5000 --name gunicorn gunicorn_img:$(date +%s)
+    - name: Test the website is available
+      run: python initial_test.py
