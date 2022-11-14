@@ -7,18 +7,17 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build_test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gunicorn_container/
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      working-directory: gunicorn_container/
       run: docker build --tag gunicorn_img:$(date +%s) .
-        
-  test:
-    runs-on: python:3
-    steps:
-    - name: Run a container with the app
-      run: docker run -d -p 5000:5000 --name gunicorn gunicorn_img:$(date +%s)
-    - name: Test the website is available
-      run: python initial_test.py
+    - name: Run and test the image
+      run: |
+         docker run -d -p 5000:5000 --name gunicorn gunicorn_img:$(date +%s)
+         pip3 install -r requirements.txt #prerequencies to run the tests
+         python initial_test.py
