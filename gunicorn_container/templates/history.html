@@ -1,0 +1,25 @@
+{%extends 'home.html'%}
+
+{% block title %} History {% endblock %}
+
+{%block weather%}
+
+
+<!--icon library-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class = "weather">
+ <table>
+    <tr>
+      <th>files</th>
+    </tr>
+    {% for i in paths %}
+    <tr>
+      <td>{{i}}</td>
+        <td><a download href=/static/history/{{i}} ><button class="btn"><i class="fa fa-download"></i>Download</button></a></td>
+    </tr>
+    {%endfor%}
+  </table>
+</div>
+
+{%endblock%}

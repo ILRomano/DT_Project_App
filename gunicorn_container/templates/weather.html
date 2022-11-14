@@ -1,0 +1,30 @@
+{%extends 'home.html'%}
+
+{% block title %} Weather {% endblock %}
+
+{%block weather%}
+<style>
+
+</style>
+<div class = "weather">
+ <h2>{{data["location"]}}</h2>
+ <table>
+    <tr>
+      <th>Date</th>
+      <th>Day Temp</th>
+      <th>Night Temp</th>
+      <th>Humidity</th>
+    </tr>
+    {% for i in range(7) %}
+    <tr>
+      <td>{{data["date"][i]}}</td>
+      <td>{{data["day_temp"][i]}}</td>
+      <td>{{data["night_temp"][i]}}</td>
+      <td>{{data["humidity"][i]}}</td>
+    </tr>
+    {%endfor%}
+ </table>
+
+</div>
+
+{%endblock%}

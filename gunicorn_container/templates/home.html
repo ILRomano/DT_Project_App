@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> {%block title%}{%endblock%}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+
+  <style>
+    body {
+      font-family: serif;
+      background-image: url("static/{{bg_image}}");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    div.main{
+      background-color: rgba(237,237,237,0.25);
+      backdrop-filter: blur(15px);
+      border-radius: 60px;
+      position: absolute;
+      top: 10%;
+      right: 25%;
+      width: 50%;
+      height: 60%;
+    }
+    div.search{
+      position: absolute;
+      width: 50%;
+      top: 20%;
+      right: 25%;
+      height: 20%;
+      margin: auto;
+    }
+    form.search input[type=text] {
+      position: absolute;
+      padding: 2%;
+      font-size: 1vw;
+      border: 1px solid grey;
+      width: 50%;
+      right: 30%;
+      background: #f1f1f1;
+    }
+
+    form.search button {
+      position: absolute;
+      width: 10%;
+      padding: 2%;
+      background: #2196F3;
+      color: white;
+      font-size: 1vw;
+      border: 1px solid grey;
+      right: 20%;
+      cursor: pointer;
+    }
+
+    form.search button:hover {
+      background: #0b7dda;
+    }
+
+    form.search after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    div.weather table {
+    border: 1px solid;
+    position: absolute;
+    top: 60%;
+    height: 15%;
+    width: 50%;
+    right: 25%;
+    }
+         /* Style buttons */
+    .btn {
+      background-color: DodgerBlue;
+      border: none;
+      color: white;
+      padding: 6px 13px;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: RoyalBlue;
+    }
+
+    tr, td, th {
+    border: 1px solid;
+    }
+
+    div.weather{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    top: 30%;
+    text-align: center;
+    }
+
+    div.error{
+    position: absolute;
+    width: 100%;
+    left: 41%;
+    top: 26%;
+    }
+
+ </style>
+</head>
+  <body>
+    <div class = "main" >
+      <br><br>
+      <h2 style = "text-align:center">Welcome to Romano's website</h2>
+      <div class = "search">
+        <form action="#" class="search" method="POST">
+        <input type="text" placeholder="enter a city/country" name="city">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      {%block weather%} {%endblock%}
+      {%block error%} {%endblock%}
+      <form action="/history" method="POST">
+        <button class="btn btn-primary" type="submit">Historical Data</button>
+      </form>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    environment{
+        dockerhub=credentials('	2bc965bf-4197-47c7-8a05-152131399f9e')
+    }
+    stages {
+        stage('Fetch') {
+            steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '136a8524-1235-41a2-b633-d8f18af0832a', url: 'http://3.64.177.90/gitlab-instance-ed831d10/weather-website']]])
+            }
+        }
+        stage('Build') {
+            steps {
+            sh  '''
+                cd gunicorn_container
+                docker rm -f gunicorn
+                docker build -t gunicorn_img .
+                docker run -d -p 5000:5000 --name gunicorn gunicorn_img 
+                cd .. ; cd nginx_container/
+                docker build -t nginx_img .
+                '''
+
+            }
+        }
+        stage('Test') {
+            steps {
+            sh  '''
+                cd gunicorn_container
+                pip3 install -r requirements.txt
+                python initial_test.py
+                '''
+            }
+        }
+        stage('Push') {
+            steps {
+            sh  '''
+                docker tag gunicorn_img:latest romanoo/gunicorn_img:latest
+                docker tag nginx_img:latest romanoo/nginx_img:latest
+                echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin
+                docker push romanoo/gunicorn_img:latest
+                docker push romanoo/nginx_img:latest
+                '''
+            }
+        }
+        stage('Deploy') {
+            steps{
+                    sshagent (credentials: ['eae469ff-833c-45f3-9be7-c743ad9f142e']) {
+                    sh 'scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@3.66.21.96:~'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.66.21.96 docker-compose pull'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.66.21.96 docker-compose up -d'
+                        
+                }
+            }
+        }
+    }
+}

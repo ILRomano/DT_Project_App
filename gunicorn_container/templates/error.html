@@ -1,0 +1,15 @@
+{%extends 'home.html'%}
+
+{% block title %} Error {% endblock %}
+
+{%block error%}
+<div class= "error">
+    {%if status == "user_error"%}
+        <p  style="color:#ff0000">Invalid city name</p>
+    {%elif status == "server_error"%}
+        <p  style="color:#ff0000">something went wrong on the server side</p>
+    {%elif status == "unknown_error"%}
+        <p  style="color:#ff0000">unknown error, please email us with the request details</p>
+    {% endif %}
+</div>
+{%endblock%}
