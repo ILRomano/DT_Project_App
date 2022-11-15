@@ -27,4 +27,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
     - name: push to dockerhub 
-      run: docker push romanoo/gunicorn_img:latest
+      run: docker push romanoo/gunicorn_img
