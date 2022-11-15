@@ -15,10 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t gunicorn_img:latest .
+      run: docker build -t gunicorn_img .
     - name: Run and test the image
       run: |
-         docker run -d -p 5000:5000 --name gunicorn gunicorn_img:latest
+         docker run -d -p 5000:5000 --name gunicorn gunicorn_img
          pip3 install -r requirements.txt #prerequencies to run the tests
          python initial_test.py
     - name: Login to Docker Hub
@@ -28,5 +28,6 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
     - name: push to dockerhub 
       run: |
+        docker tag gunicorn_img:latest romanoo/gunicorn_img:latest
         docker images
-        docker push romanoo/gunicorn_img
+        docker push romanoo/gunicorn_img:latest
